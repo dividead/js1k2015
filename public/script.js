@@ -4,9 +4,9 @@ var canvas = document.getElementById("c"),
     height = 600;
 canvas.width = width; canvas.height = height;
 
-var atom = "Every Atom Procedural,Every Leaf Procedural,Every Tree Procedural,Every Bird Procedural,Every Fish Procedural,Every Rock Procedural,Every Ocean Procedural,Every Cloud Procedural,Every Ruin Procedural,Every Star Procedural,Every Sun Procedural,Every Galaxy Procedural,Every Planet Procedural,Every Planet Unique,Every Planet Unexplored".split(',').map(function(x){return x.toUpperCase()})
+var atom = 'ATOM,LEAF,TREE,BIRD,FISH,ROCK,OCEAN,CLOUD,RUIN,PLANET,STAR,SUN,GALAXY'.split(',')
 
-function grid(){
+var grid = function(){
   c.strokeStyle = "rgba(255,255,255, 0.2)"
   c.beginPath()
   for(var i = 30; i < width; i+=30){
@@ -23,12 +23,13 @@ function grid(){
 
 var t = 0, i = 0
 
-function text (s){
+var text  = function (s){
   c.font = '25px Lucida Console'
   c.fillStyle = '#B60C48'
-  c.fillText(s,140,40)
+  c.fillText('EVERY '+s+' PROCEDURAL',140,40)
+  //every + s
 }
-function tri(x1,y1,x2,y2,x3,y3,color){
+var tri = function(x1,y1,x2,y2,x3,y3,color){
   c.fillStyle = color
   c.strokeStyle = 'white'
   c.beginPath()
@@ -61,7 +62,7 @@ function tri(x1,y1,x2,y2,x3,y3,color){
 // cxt.stroke();
 // cxt.closePath();
 
-function dot(x,y){
+var dot = function(x,y){
   c.fillStyle = '#B60C48'
   c.beginPath()
   c.arc(x,y,10,0,2*Math.PI);
@@ -96,35 +97,48 @@ var centerX = 300, centerY = 225
 // }
 var an = 0
 //var i = 0 * Math.PI; i < 2 * Math.PI; i += 0.01
-function run(i){
+var run = function(i,x){
   if (an >= 2 * Math.PI) an = 0
-  xPos = centerX - (27 * Math.sin(i)) * Math.sin(0 * Math.PI) + (97 * Math.cos(i)) * Math.cos(0 * Math.PI);
-  yPos = centerY + (97 * Math.cos(i)) * Math.sin(0 * Math.PI) + (27 * Math.sin(i)) * Math.cos(0 * Math.PI);
-  dot(xPos, yPos)
+  xPos = centerX - (27 * Math.sin(i + x*Math.PI/2)) * Math.sin(0 * Math.PI) + (97 * Math.cos(i + x*Math.PI/2)) * Math.cos(0 * Math.PI);
+  yPos = centerY + (97 * Math.cos(i + x*Math.PI/2)) * Math.sin(0 * Math.PI) + (27 * Math.sin(i + x*Math.PI/2)) * Math.cos(0 * Math.PI);
+  //dot(xPos, yPos)
   an += 0.01
-  //var xy = {x : xPos, y : yPos}
-  //return xy
+  return [xPos, yPos]
   //должно возвращать четыре точки или запускать четыре раза?
   //может просто к ан добавить пи/2?
 }
 
-function thing(i){
-  tri(300,100, 400,220, 300,250,'rgba(55,45,46, 0.7)')
-  tri(300,100, 300,250, 200,220,'rgba(55,45,46, 0.7)')
-  tri(300,450, 400,220, 300,250,'rgba(55,45,46, 0.7)')
-  tri(300,450, 300,250, 200,220,'rgba(55,45,46, 0.7)')
+var thing = function(i){
+  var f1 = run(i,0) // f1[0],f1[1],
+  var f2 = run(i,1)
+  var f3 = run(i,2)
+  var f4 = run(i,3)
+  tri(300,100, f1[0],f1[1], f2[0],f2[1],'rgba(55,45,46, 0.7)')
+  tri(300,100, f2[0],f2[1], f3[0],f3[1],'rgba(55,45,46, 0.7)')
+  //   tri(300,100, 400,220, 300,250,'rgba(55,45,46, 0.7)')
+  //   tri(300,100, 300,250, 200,220,'rgba(55,45,46, 0.7)')
+  
+  tri(300,100, f1[0],f1[1], f4[0],f4[1],'rgba(176,71,65, 0.5)')
+  tri(300,100, f4[0],f4[1], f3[0],f3[1],'rgba(176,71,65, 0.5)')
+  //   tri(300,100, 400,220, 300,200,'rgba(176,71,65, 0.1)')
+  //   tri(300,100, 300,200, 200,220,'rgba(176,71,65, 0.1)')
+  
+  tri(300,450, f1[0],f1[1], f2[0],f2[1],'rgba(55,45,46, 0.7)')
+  tri(300,450, f2[0],f2[1], f3[0],f3[1],'rgba(55,45,46, 0.7)')
+  //   tri(300,450, 400,220, 300,250,'rgba(55,45,46, 0.7)')
+  //   tri(300,450, 300,250, 200,220,'rgba(55,45,46, 0.7)')
 
-  tri(300,100, 400,220, 300,200,'rgba(176,71,65, 0.1)')
-  tri(300,100, 300,200, 200,220,'rgba(176,71,65, 0.1)')
-  tri(300,450, 400,220, 300,200,'rgba(176,71,65, 0.1)')
-  tri(300,450, 300,200, 200,220,'rgba(176,71,65, 0.1)')
+  tri(300,450, f1[0],f1[1], f4[0],f4[1],'rgba(176,71,65, 0.5)')
+  tri(300,450, f4[0],f4[1], f3[0],f3[1],'rgba(176,71,65, 0.5)')
+  //   tri(300,450, 400,220, 300,200,'rgba(176,71,65, 0.1)')
+  //   tri(300,450, 300,200, 200,220,'rgba(176,71,65, 0.1)')
 }
 
 //choose top and bottom points (fixed), find 4 rotating points on ellipse
 //draw the thing
 //rotate
 
-function update() {
+var update = function() {
   //c.clearRect(0, 0, width, height);
   c.fillStyle = '#5D887F'
   c.fillRect(0,0,600,600)
@@ -136,8 +150,11 @@ function update() {
   }
   text(atom[i])
   //tri(300,100, 400,220, run(an).x,run(an).y,'rgba(55,45,46, 0.7)')
-  thing(i)
-  run(an)
+  thing(an)
+//   run(an, 0)
+//   run(an, 1)
+//   run(an, 2)
+//   run(an, 3)
 //   if (an > 2.5 && an < 5.7){
 //     run(an)
 //     urmom()
