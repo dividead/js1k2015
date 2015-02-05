@@ -3,6 +3,7 @@ var canvas = document.getElementById("c"),
     width = 600,
     height = 600;
 canvas.width = width; canvas.height = height;
+
 var pi = Math.PI, si = Math.sin, co = Math.cos
 var atom = 'ATOM,LEAF,TREE,BIRD,FISH,ROCK,OCEAN,CLOUD,RUIN,PLANET,STAR,SUN,GALAXY'.split(',')
 var t = 0, m = 0, an = 0
@@ -33,7 +34,7 @@ var dot = function(x,y){
   c.fill()
 }
 
-var tri = function(a){
+var th = function(a){
   c.fillStyle = 'rgba(176,71,65, 0.9)'
   c.strokeStyle = '#fff'
   c.beginPath()
@@ -63,7 +64,7 @@ var run = function(i){
     a.push(z,v)
   }
   an += 0.01
-  tri(a)
+  th(a)
 }
 
 var update = function() {
@@ -72,7 +73,7 @@ var update = function() {
   c.fillRect(0,0,600,600)
   grid()
   if (++t > 25) {
-    i = m >= atom.length-1 ? 0 : m+1
+    m = m >= atom.length-1 ? 0 : m+1
     t = 0
   }
   text(atom[m])
