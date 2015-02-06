@@ -34,10 +34,12 @@ var dot = function(x,y){
   c.fill()
 }
 
-var th = function(a){
-  c.fillStyle = 'rgba(176,71,65, 0.9)'
+
+var th = function(a,color){
+  c.fillStyle = 'rgba(176,71,65, 0.7)'
   c.strokeStyle = '#fff'
   c.beginPath()
+  c.arc(300,225,40+a[0]/20,0,2*pi)
   c.moveTo(300, 100)
   c.lineTo(a[4],a[5])
   c.lineTo(a[2],a[3])
