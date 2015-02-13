@@ -9,7 +9,7 @@ var atom = 'ATOM,LEAF,TREE,BIRD,FISH,ROCK,OCEAN,CLOUD,RUIN,PLANET,STAR,SUN,GALAX
 var t = 0, m = 0, an = 0
 
 var grid = function(){
-  c.strokeStyle = "rgba(255,255,255, 0.2)"
+  c.strokeStyle = "rgba(208,222,199, 0.2)"
   c.beginPath()
   for(var i = 30; i < 600; i+=30){
     c.moveTo(i,0)
@@ -21,22 +21,29 @@ var grid = function(){
   c.stroke()
 }
 
+var sph = function(){
+  c.strokeStyle = "rgba(208,222,199, 0.2)"
+  c.beginPath()
+  for(var i = 5; i < 600; i+=15){
+    c.moveTo(300, -200)
+    c.quadraticCurveTo(5*i, 300, 300, 650)
+    c.moveTo(300, -200)
+    c.quadraticCurveTo(-5*i, 300, 300, 650)
+    c.moveTo(-200, 300)
+    c.quadraticCurveTo(300, 5*i, 650, 300)
+    c.moveTo(-200, 300)
+    c.quadraticCurveTo(300, -5*i, 650, 300)
+  }
+  c.stroke()
+}
+
 var text  = function (s){
-  c.font = '25px Lucida Console'
-  c.fillStyle = '#B60C48'
+  c.font = '25px Helvetica'
+  c.fillStyle = 'white'
   c.fillText('EVERY '+s+' PROCEDURAL',140,40)
 }
-
-var dot = function(x,y){
-  c.fillStyle = '#B60C48'
-  c.beginPath()
-  c.arc(x,y,10,0,2*pi);
-  c.fill()
-}
-
-
 var th = function(a,color){
-  c.fillStyle = 'rgba(176,71,65, 0.7)'
+  c.fillStyle = 'rgba(194,75,67, 0.7)'
   c.strokeStyle = '#fff'
   c.beginPath()
   c.arc(300,225,40+a[0]/20,0,2*pi)
@@ -56,7 +63,6 @@ var th = function(a,color){
   c.fill()
   c.stroke()
 }
-
 var run = function(i){
   if (an >= 2 * pi) an = 0
   var a = []
@@ -68,12 +74,11 @@ var run = function(i){
   an += 0.01
   th(a)
 }
-
 var update = function() {
-  //c.clearRect(0, 0, width, height);
-  c.fillStyle = '#5D887F'
+  c.fillStyle = 'rgb(136,159,139)'
   c.fillRect(0,0,600,600)
-  grid()
+  //grid()
+  sph()
   if (++t > 25) {
     m = m >= atom.length-1 ? 0 : m+1
     t = 0
